@@ -1,20 +1,21 @@
-import { boardSize } from './env'
-
 class ChessMovesClass {
   startX: number
   startY: number
-  boardSize: number
+  boardWidth: number
+  boardHeight: number
   movesList: MoveOnStackClass[]
-  constructor(startX: number, startY: number, boardSize: number) {
+  constructor(startX: number, startY: number, boardWidth: number, boardHeight: number) {
     this.startX = startX
     this.startY = startY
-    this.boardSize = boardSize
+    this.boardWidth = boardWidth
+    this.boardHeight = boardHeight
     this.movesList = []
     this.movesList.push(
       new MoveOnStackClass(
         this.startX,
         this.startY,
-        this.boardSize,
+        this.boardWidth,
+        this.boardHeight,
         this.movesList
       )
     )
@@ -56,7 +57,7 @@ class ChessMovesClass {
   }
 
   findWay() {
-    const lengthOfWay = Math.pow(boardSize, 2)
+    const lengthOfWay = this.boardWidth * this.boardHeight
     while (this.movesList.length < lengthOfWay) {
       const move = this.chooseNextMove()
       if (move === false) {
@@ -69,7 +70,8 @@ class ChessMovesClass {
         const newMove = new MoveOnStackClass(
           move.x,
           move.y,
-          this.boardSize,
+          this.boardWidth,
+          this.boardHeight,
           this.movesList
         )
         this.movesList.push(newMove)
@@ -99,7 +101,8 @@ class SingleMoveClass {
 class MoveOnStackClass {
   x: number
   y: number
-  boardSize: number
+  boardWidth: number
+  boardHeight: number
   currentMovesList: MoveOnStackClass[]
   nextAvailableMoves: SingleMoveClass[]
 
@@ -136,9 +139,9 @@ class MoveOnStackClass {
       const newY = y + dy
       if (
         newX > 0 &&
-        newX <= this.boardSize &&
+        newX <= this.boardWidth &&
         newY > 0 &&
-        newY <= this.boardSize &&
+        newY <= this.boardHeight &&
         !this.isMoveOnStack(newX, newY)
       ) {
         count++
@@ -155,7 +158,7 @@ class MoveOnStackClass {
       const newY = this.y + dy
 
       // Check if move is within board boundaries
-      if (newX > 0 && newX <= this.boardSize && newY > 0 && newY <= this.boardSize) {
+      if (newX > 0 && newX <= this.boardWidth && newY > 0 && newY <= this.boardHeight) {
         if (!this.isMoveOnStack(newX, newY)) {
           // Calculate accessibility (Warnsdorff's heuristic)
           const accessibility = this.countAccessibleMoves(newX, newY)
@@ -173,12 +176,14 @@ class MoveOnStackClass {
   constructor(
     x: number,
     y: number,
-    size: number,
+    width: number,
+    height: number,
     currentMovesList: MoveOnStackClass[]
   ) {
     this.x = x
     this.y = y
-    this.boardSize = size
+    this.boardWidth = width
+    this.boardHeight = height
     this.currentMovesList = currentMovesList
     this.nextAvailableMoves = this.getAvailableNextMoves()
   }
