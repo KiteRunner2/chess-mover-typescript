@@ -8,20 +8,26 @@
 1. You need nodejs installed
 2. Clone the repository and run 'yarn' or 'npm install'
 3. Run 'yarn build' - this will create 'dist' folder with file 'chess-move.js'
-4. From project folder run 'node dist/chess-move.js X Y Z'.
+4. From project folder run 'node dist/chess-move.js X Y W [H]'.
   where X and Y is starting position for chess knight.
-  X is column, Y is row. Exmple X=1, Y=1 represents bottom left square.
-  Z is board size. i.e. Z=5 represents board with 5 rows and columns.
+  X is column, Y is row. Example X=1, Y=1 represents bottom left square.
+  W is board width (number of columns).
+  H is board height (number of rows) - optional, defaults to W for square boards.
+
+  Examples:
+  - Square board: 'node dist/chess-move.js 1 1 8' creates 8x8 board
+  - Rectangular board: 'node dist/chess-move.js 1 1 9 10' creates 9 columns x 10 rows board
 ```
 
 ## Feel free to contribute for more efficient solution!
 
-## Example:
+## Examples:
 
+### Square board (6x6):
 ```
 node dist/chess-move.js 1 1 6
 
-and result:
+Result:
 1: [1, 1]
 2: [2, 3]
 3: [3, 5]
@@ -59,4 +65,14 @@ and result:
 35: [2, 4]
 36: [1, 6]
 
+```
+
+### Rectangular board (6x8):
+```
+node dist/chess-move.js 1 1 6 8
+
+Result:
+There is a way through whole board!
+(48 moves total - 6 columns x 8 rows)
+Execution time: 0.008 sec.
 ```
